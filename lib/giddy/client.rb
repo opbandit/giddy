@@ -20,7 +20,7 @@ module Giddy
         :Query => { :SearchPhrase =>  attrs[:query] },
         :ResultOptions => { :ItemCount => attrs[:limit], :ItemStartNumber => attrs[:start] }
       }
-      attrs = attrs[:additional].merge(converted)
+      attrs = converted.merge(attrs[:additional])
       Search.new(@mediator).search_for_images(attrs)
     end
 
