@@ -1,19 +1,42 @@
 module Giddy
-  module Mediator
+  class Mediator
     ROOTPATH = "https://connect.gettyimages.com/v1"
+    attr_reader :token, :secure_token
     
-    def gettyup(name, data, bodyname=nil, secure=false, check_token=true)
-      token = secure ? Giddy.config.secure_token : Giddy.config.token
-      if token.nil? and check_token
-        Session.create_session
-        token = secure ? Giddy.config.secure_token : Giddy.config.token
+    def initialize(username, password, token=nil, secure_token=nil)
+      @username = username
+      @password = password
+      @token = token
+      @secure_token = secure_token
+    end
+
+    def create_session
+      data = { 
+        :SystemId => Giddy.config.system_id,
+        :SystemPassword => Giddy.config.system_password,
+        :UserName => @username,
+        :UserPassword => @password
+      }
+      result = fetch "session", nil, nil, :CreateSession, data
+      unless result["ResponseHeader"]["Status"] == "success"
+        raise "Error authenticating: #{result["ResponseHeader"]}"
+      end
+      @token = result["CreateSessionResult"]["Token"]
+      @secure_token = result["CreateSessionResult"]["SecureToken"]
+    end
+
+    def gettyup(path, name, data, bodyname, secure)
+      token = secure ? @secure_token : @token
+      if token.nil?
+        create_session
+        token = secure ? @secure_token : @token
       end
 
-      result = fetch(token, bodyname, name, data)
+      result = fetch(path, token, bodyname, name, data)
 
       if reauth_needed?(result)
-        Session.create_session
-        gettyup name, data, bodyname        
+        create_session
+        gettyup path, name, data, bodyname, secure
       elsif result["ResponseHeader"]["Status"] == "success"
         result["#{name}Result"]
       else
@@ -21,7 +44,7 @@ module Giddy
       end
     end
 
-    def fetch(token, bodyname, name, data)
+    def fetch(path, token, bodyname, name, data)
       body = { :RequestHeader => { :Token => token }, "#{bodyname || name}RequestBody" => data }
       headers = { 'Content-Type' => 'application/json' }
       url = "#{ROOTPATH}/#{path}/#{name}"
