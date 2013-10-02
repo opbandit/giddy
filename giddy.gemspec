@@ -19,4 +19,5 @@ Gem::Specification.new do |s|
   s.add_dependency("httparty", ">= 0.11.0")
   s.add_dependency("json", ">= 1.8.0")
   s.add_development_dependency('rdoc')
+  s.add_development_dependency('rake')
 end

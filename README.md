@@ -1,5 +1,5 @@
 # Giddy
-Giddy is a ruby gem for interacting with the Getty API>
+Giddy is a ruby gem for interacting with the Getty API.
 
 # Installation
 
@@ -23,15 +23,18 @@ end
 Searching:
 ```ruby
 images = Giddy::Image.find(:query => "puppy")
+# or, with pagination
+images = Giddy::Image.find(:query => "kitty", :start => 21, :limit => 20)
 ```
 
 Get an images details:
 ```ruby
 image = Giddy::Image(:image_id => "182405488")
 puts image
+puts image.artist
 ```
 
 Download request:
 ```ruby
-puts images.first.download_largest
+puts image.download_largest
 ```

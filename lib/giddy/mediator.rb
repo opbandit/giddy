@@ -25,9 +25,7 @@ module Giddy
       body = { :RequestHeader => { :Token => token }, "#{bodyname || name}RequestBody" => data }
       headers = { 'Content-Type' => 'application/json' }
       url = "#{ROOTPATH}/#{path}/#{name}"
-      result = HTTParty.post(url, :body => body.to_json, :headers => headers)
-      puts "body: #{body.to_json}\n result: #{result.body}\n\n"
-      result
+      HTTParty.post(url, :body => body.to_json, :headers => headers)
     end
 
     def reauth_needed?(result)
