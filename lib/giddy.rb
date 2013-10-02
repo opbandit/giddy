@@ -2,6 +2,7 @@ require 'json'
 require 'httparty'
 
 require "giddy/version"
+require "giddy/exceptions"
 require "giddy/endpoint"
 require "giddy/config"
 require "giddy/mediator"

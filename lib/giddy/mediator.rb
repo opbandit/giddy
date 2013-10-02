@@ -19,7 +19,7 @@ module Giddy
       }
       result = fetch "session", nil, nil, :CreateSession, data
       unless result["ResponseHeader"]["Status"] == "success"
-        raise "Error authenticating: #{result["ResponseHeader"]}"
+        raise error_type(result), "Error authenticating: #{result["ResponseHeader"]}"
       end
       @token = result["CreateSessionResult"]["Token"]
       @secure_token = result["CreateSessionResult"]["SecureToken"]
@@ -40,8 +40,15 @@ module Giddy
       elsif result["ResponseHeader"]["Status"] == "success"
         result["#{name}Result"]
       else
-        raise "Error fetching #{name}: #{result["ResponseHeader"]}"
+        raise error_type(result), "Error fetching #{name}: #{result["ResponseHeader"]}"
       end
+    end
+
+    def error_type(result)
+      statuses = result["ResponseHeader"]["StatusList"].map { |s| s["Code"] }
+      return ImageNotFound if statuses.include? "ImageNotFound"
+      return InvalidUsernameOrPassword if statuses.include? "InvalidUsernameOrPassword"
+      InvalidRequest
     end
 
     def fetch(path, token, bodyname, name, data)
