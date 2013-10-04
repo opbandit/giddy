@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/opbandit/giddy"
   s.summary     = "Ruby client for Getty API"
   s.description = "Ruby client for Getty API"
+  s.license     = 'MIT'
 
   s.rubyforge_project = "giddy"
 
