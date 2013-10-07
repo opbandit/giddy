@@ -46,6 +46,14 @@ Download request:
 puts image.download_largest
 ```
 
+To get the available sizes, and then the URL of the download for the smallest:
+```ruby
+image = client.search(:image_id => "136094606")
+# image.sizes is ordered by file size, smallest to largest
+smallest = image.sizes.first
+puts image.download(smallest).url_attachment
+```
+
 It's also possible to cache session information so that you don't have to reauthenticate on each client creation.  For instance:
 ```ruby
 client = Giddy::Client.new("username", "password")
