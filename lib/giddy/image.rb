@@ -1,3 +1,5 @@
+require 'date'
+
 module Giddy
   class Image
     def initialize(attrs, mediator)
@@ -40,9 +42,23 @@ module Giddy
       download_request authorizations.first[:download_token]
     end
 
+    def date_created
+      parse_date @attrs[:date_created]
+    end
+
+    def date_submitted
+      parse_date @attrs[:date_submitted]
+    end
+
     def to_s
       as = @attrs.map { |k,v| "#{k}=#{v}" }.join(", ")
       "<Image #{as}>" 
+    end
+
+    private
+    def parse_date(d)
+      # date looks like /Date(1145593612000-0700)/
+      DateTime.strptime d.slice(6, d.length-8), "%Q%z"
     end
   end
 end
