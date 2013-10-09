@@ -57,8 +57,9 @@ module Giddy
 
     private
     def parse_date(d)
-      # date looks like /Date(1145593612000-0700)/
-      DateTime.strptime d.slice(6, d.length-8), "%Q%z"
+      # date looks like /Date(1145593612000-0700)/ or /Date(1235980800000)/
+      fmt = (d.include?('-') or d.include?('+')) ? "%Q%z" : "%Q"
+      DateTime.strptime d.slice(6, d.length-8), fmt
     end
   end
 end
