@@ -7,4 +7,7 @@ module Giddy
 
   class InvalidUsernameOrPassword < RuntimeError
   end
+
+  class ImageDownloadError < RuntimeError
+  end
 end

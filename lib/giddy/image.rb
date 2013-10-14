@@ -23,7 +23,9 @@ module Giddy
     def download(size)
       sizekey = size[:size_key]
       result = downloader.get_image_download_authorizations(@attrs[:image_id], [sizekey])
-      download_request result[sizekey][:authorizations].first[:download_token]
+      auths = result[sizekey][:authorizations]
+      raise ImageDownloadError, "No authorizations available." if auths.length == 0
+      download_request auths.first[:download_token]
     end
 
     def largest_available
