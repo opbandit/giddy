@@ -4,6 +4,10 @@ module Giddy
       @mediator = Mediator.new(username, password, token, secure_token)
     end
 
+    def set_system_credentials(system_id, system_password)
+      @mediator.set_system_credentials system_id, system_password
+    end
+
     def search(attrs)
       if attrs.has_key?(:image_id) and attrs.keys.length == 1
         return Search.new(@mediator).get_image_details(attrs[:image_id]).first

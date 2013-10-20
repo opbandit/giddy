@@ -1,5 +1,5 @@
 # Giddy
-Giddy is a ruby gem for interacting with the Getty API.
+Giddy is a Ruby gem for interacting with the {Getty Images Connect API}[https://github.com/gettyimages/connect].
 
 # Installation
 

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    giddy (0.1.2)
+    giddy (0.1.3)
       httparty (>= 0.11.0)
       json (>= 1.8.0)
 

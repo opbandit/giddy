@@ -8,12 +8,19 @@ module Giddy
       @password = password
       @token = token
       @secure_token = secure_token
+      @system_id = nil
+      @system_password = nil
+    end
+
+    def set_system_credentials(system_id, system_password)
+      @system_id = system_id
+      @system_password = system_password
     end
 
     def create_session
       data = { 
-        :SystemId => Giddy.config.system_id,
-        :SystemPassword => Giddy.config.system_password,
+        :SystemId => @system_id || Giddy.config.system_id,
+        :SystemPassword => @system_password || Giddy.config.system_password,
         :UserName => @username,
         :UserPassword => @password
       }
