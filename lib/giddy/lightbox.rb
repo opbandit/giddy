@@ -6,7 +6,8 @@ module Giddy
     end
 
     def images
-      lightbox_items
+      image_ids = lightbox_items.map { |img| img[:asset_id] }
+      Search.new(@mediator).get_image_details(image_ids)
     end
 
     def method_missing(method, *args, &block)

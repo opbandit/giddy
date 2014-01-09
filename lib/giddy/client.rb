@@ -11,6 +11,8 @@ module Giddy
     def search(attrs)
       if attrs.has_key?(:image_id) and attrs.keys.length == 1
         return Search.new(@mediator).get_image_details(attrs[:image_id]).first
+      elsif attrs.has_key?(:image_ids) and attrs.keys.length == 1
+        return Search.new(@mediator).get_image_details(attrs[:image_ids])
       end
       
       attrs = {
