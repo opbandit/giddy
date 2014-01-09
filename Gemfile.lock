@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    giddy (0.1.5)
+    giddy (0.1.6)
       httparty (>= 0.11.0)
       json (>= 1.8.0)
       mechanize (~> 2.7.2)
