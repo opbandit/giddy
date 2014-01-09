@@ -35,9 +35,8 @@ module Giddy
       end
 
       a.get('http://www.gettyimages.com/account/MediaBin/Default.aspx?ViewBy=0') do |page|
-        return page.links_with(:id => 'hypMediaBinName').map { |l|
-          CGI::parse(l.href.split('?')[1])['Id'][0]
-        }
+        links = page.links.map(&:href).select { |href| href.start_with? "/Account/MediaBin/LightboxDetail.aspx" }
+        return links.map { |h| CGI::parse(h.split('?')[1])['Id'][0] }
       end
     end
 
