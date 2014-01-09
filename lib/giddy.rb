@@ -9,6 +9,8 @@ require "giddy/mediator"
 require "giddy/client"
 require "giddy/search"
 require "giddy/download"
+require "giddy/lightbox_headers"
+require "giddy/lightbox"
 require "giddy/image"
 require "giddy/utils"
 

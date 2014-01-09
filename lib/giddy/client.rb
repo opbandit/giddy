@@ -28,6 +28,23 @@ module Giddy
       Search.new(@mediator).search_for_images(attrs)
     end
 
+    def lightboxes(count=1, start=1)
+      attrs = {
+        :ResultsViewOptions => { :ItemCount => count, :ItemStartNumber => start }
+      }
+      LightboxHeaders.new(@mediator).get_lightbox_headers(attrs)
+    end
+
+    def get_lightbox(id)
+      attrs = { :LightboxId => id, :LightboxItemsViewOptions => { :ItemCount => 100, :ItemStartNumber => 1 } }
+      LightboxHeaders.new(@mediator).get_lightbox(attrs)
+    end
+
+    def create_lightbox(name, attrs)
+      attrs = { :LightboxName => name }.merge(attrs)
+      LightboxHeaders.new(@mediator).create_lightbox(attrs)
+    end
+
     def token
       @mediator.token
     end

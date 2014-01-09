@@ -1,3 +1,6 @@
+require 'mechanize'
+require 'cgi'
+
 module Giddy
   class Utils
     # covert camel case keys to underscore
@@ -19,5 +22,24 @@ module Giddy
       }
       fixed
     end
+
+    def self.get_lightbox_ids(username, password)
+      a = Mechanize.new
+      a.get('https://secure.gettyimages.com/sign-in') do |page|
+        page = page.form_with(:id => 'new_new_session') { |f|
+          f["new_session[username]"] = username
+          f["new_session[password]"] = password
+        }.click_button
+
+        return nil if page.filename != "index.html"
+      end
+
+      a.get('http://www.gettyimages.com/account/MediaBin/Default.aspx?ViewBy=0') do |page|
+        return page.links_with(:id => 'hypMediaBinName').map { |l|
+          CGI::parse(l.href.split('?')[1])['Id']
+        }
+      end
+    end
+
   end
 end
