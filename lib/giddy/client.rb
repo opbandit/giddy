@@ -30,15 +30,17 @@ module Giddy
       Search.new(@mediator).search_for_images(attrs)
     end
 
-    def lightboxes(count=1, start=1)
+    def lightboxes(count=20, start=1)
       attrs = {
         :ResultsViewOptions => { :ItemCount => count, :ItemStartNumber => start }
       }
       LightboxHeaders.new(@mediator).get_lightbox_headers(attrs)
     end
 
-    def get_lightbox(id)
-      attrs = { :LightboxId => id, :LightboxItemsViewOptions => { :ItemCount => 100, :ItemStartNumber => 1 } }
+    def get_lightbox(id, count=20, start=1)
+      # Yes, this just returns info for a lightbox, but you can control the list of images
+      # in this lightbox with the pagination parameters
+      attrs = { :LightboxId => id, :LightboxItemsViewOptions => { :ItemCount => count, :ItemStartNumber => start } }
       LightboxHeaders.new(@mediator).get_lightbox(attrs)
     end
 
