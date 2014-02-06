@@ -19,12 +19,14 @@ module Giddy
         :limit => 25,
         :start => 1,
         :query => "",
+        :sort_by => 'MostPopular',
         :additional => {}
       }.merge(attrs)
 
       converted = {
+        :Filter => { :ImageFamilies => ['Creative']},
         :Query => { :SearchPhrase =>  attrs[:query] },
-        :ResultOptions => { :ItemCount => attrs[:limit], :ItemStartNumber => attrs[:start] }
+        :ResultOptions => { :ItemCount => attrs[:limit], :ItemStartNumber => attrs[:start], :CreativeSortOrder => attrs[:sort_by] }
       }
       attrs = converted.merge(attrs[:additional])
       Search.new(@mediator).search_for_images(attrs)
